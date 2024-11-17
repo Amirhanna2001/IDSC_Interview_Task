@@ -1,0 +1,63 @@
+﻿@model List<Product>
+@{
+    ViewData["Title"] = "All Products";
+    string msg = "";
+    if (ViewData["Products"] != null)
+    {
+        msg = "Of " + ViewData["Products"] + " Category";
+    }
+    if (ViewData["Search"] != null)
+    {
+        msg = "Of " +"`"+ ViewData["Search"]+"`" + " Key";
+    }
+}
+<h2>All Products @msg</h2>
+<hr />
+
+<a class="btn btn-outline-primary" asp-action="Create">Add Product</a>
+
+<div class="mt-4">
+    @if (Model.Any())
+    {
+        <div class="row">
+            @foreach (Product product in Model)
+            {
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                    <div class="card">
+                        <a asp-action="Details" asp-route-id="@product.Id" >
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">@product.Name</h5>
+                            <h5 class="card-title">@product.Price EGP</h5>
+                            <p class="card-text text-justify">
+                                @(product.Description.Length > 500 ? $"{product.Description.Substring(0, 500)}..." : product.Description)
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between">
+                                <a asp-action="Details"  asp-route-id="@product.Id" class="btn btn-outline-secondary">
+                                    <i class="bi bi-ticket-detailed"></i>
+                                    Details
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-outline-primary">
+                                        <i class="bi bi-pencil"></i>
+                                        Edit
+                                    </a>
+                                    <a onclick="return confirm('Are you sure you want to delete the product @product.Name?')"
+                                       class="btn btn-outline-danger"
+                                       asp-action="Delete"  asp-route-id="@product.Id">
+                                        <i class="bi bi-trash"></i>
+                                        Delete
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div mt-2 class="alert alert-warning">No products yet.</div>
+    }
+</div>

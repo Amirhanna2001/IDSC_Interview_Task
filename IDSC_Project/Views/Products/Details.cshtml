@@ -1,0 +1,27 @@
+﻿@model Product
+
+@{
+    ViewData["title"] = "Product Details";
+}
+<div>
+
+    <div class="card-header " >
+        @Model.Name
+    </div>
+    <div class="card-body text-center">
+        <h3 style="font:bold">@Model.Price LE</h3>
+        <h4>@Model.Description</h4>
+
+    </div>
+    <div class="card-footer text-center justify-content-between">
+        <a asp-action="index" asp-controller="Home" class="btn btn-primary">Home</a>
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+            <a asp-action="delete"
+               onclick="return confirm('Are You Sure You Want To Delete @Model.Name ?')"
+               asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+        }
+
+    </div>
+</div>
